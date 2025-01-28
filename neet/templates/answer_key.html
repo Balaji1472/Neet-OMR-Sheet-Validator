@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Answer Key Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .question-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .options {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Answer Key Input Form</h1>
+    <div id="statusMessage" class="status-message"></div>
+    <form id="answerKeyForm">
+        <div class="grid-container" id="questionGrid">
+            <!-- Questions will be generated here -->
+        </div>
+        <button type="submit" class="submit-button">Submit Answer Key</button>
+    </form>
+
+    <script>
+        function createQuestions() {
+            const grid = document.getElementById('questionGrid');
+            for (let i = 1; i <= 200; i++) {
+                const questionBox = document.createElement('div');
+                questionBox.className = 'question-box';
+                questionBox.innerHTML = `
+                    <div><strong>Q${i}</strong></div>
+                    <div class="options">
+                        <label><input type="radio" name="q${i}" value="A" required> A</label>
+                        <label><input type="radio" name="q${i}" value="B" required> B</label>
+                        <label><input type="radio" name="q${i}" value="C" required> C</label>
+                        <label><input type="radio" name="q${i}" value="D" required> D</label>
+                    </div>
+                `;
+                grid.appendChild(questionBox);
+            }
+        }
+
+        function showMessage(message, isError = false) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${isError ? 'error' : 'success'}`;
+            statusElement.style.display = 'block';
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createQuestions();
+            
+            document.getElementById('answerKeyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const answers = {};
+                let allAnswered = true;
+                
+                for (let i = 1; i <= 200; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (selected) {
+                        answers[i] = selected.value;
+                    } else {
+                        allAnswered = false;
+                        showMessage(`Please answer question ${i}`, true);
+                        break;
+                    }
+                }
+
+                if (allAnswered) {
+                    fetch('/submit_answer_key', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(answers)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            showMessage('Answer key submitted successfully!');
+                            setTimeout(() => {
+                                window.close();
+                            }, 2000);
+                        } else {
+                            showMessage('Failed to submit answer key', true);
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Error submitting answer key: ' + error.message, true);
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

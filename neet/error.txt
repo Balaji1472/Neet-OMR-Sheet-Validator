@@ -1,0 +1,15 @@
+Exception has occurred: AttributeError
+'OMRProcessorGUI' object has no attribute 'image_files'
+  File "C:\Users\Bhavadharani\OneDrive\Desktop\neet\main.py", line 355, in updateButtonStates
+    has_images = len(self.image_files) > 0
+                     ^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhavadharani\OneDrive\Desktop\neet\main.py", line 207, in initUI
+    self.updateButtonStates()
+  File "C:\Users\Bhavadharani\OneDrive\Desktop\neet\main.py", line 142, in __init__
+    self.initUI()
+  File "C:\Users\Bhavadharani\OneDrive\Desktop\neet\main.py", line 374, in main
+    ex = OMRProcessorGUI()
+         ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhavadharani\OneDrive\Desktop\neet\main.py", line 379, in <module>
+    main()
+AttributeError: 'OMRProcessorGUI' object has no attribute 'image_files'

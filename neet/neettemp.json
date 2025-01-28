@@ -1,0 +1,256 @@
+{
+  "pageDimensions": [
+    800,
+    1000
+  ],
+  "bubbleDimensions": [
+    16,
+    16
+  ],
+  "fieldBlocks": {
+    "RollNumber": {
+      "fieldType": "QTYPE_INT",
+      "fieldLabels": [
+        "digit1",
+        "digit2",
+        "digit3",
+        "digit4",
+        "digit5",
+        "digit6",
+        "digit7",
+        "digit8",
+        "digit9",
+        "digit10"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 17.4,
+      "origin": [
+        63,
+        75
+      ],
+      "bubbleValues": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "0"
+        
+      ],
+      "direction": "vertical"
+    },
+
+    "Sec1": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "1..35"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        346,
+        17.5
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec2": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "51..85"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        465,
+        19
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec3": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "101..135"
+      ],
+      "bubblesGap": 19.8,
+      "labelsGap": 19.3,
+      "origin": [
+        587,
+        19
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec4": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "151..185"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        708,
+        17
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec5": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "36..50"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        346,
+        705
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec6": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "86..100"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        465,
+        705
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec7": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "136..150"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        587,
+        705
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    },
+
+    "Sec8": {
+      "fieldType": "QTYPE_MCQ4",
+      "fieldLabels": [
+        "186..200"
+      ],
+      "bubblesGap": 20,
+      "labelsGap": 19.3,
+      "origin": [
+        708,
+        705
+      ],
+      "bubbleValues": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "direction": "horizontal"
+    }
+    
+  },
+  "preProcessors": [
+    {
+      "name": "ImagePreprocessing",
+      "options": {
+        "grayscale": true,
+        "claheClipLimit": 2.0,
+        "claheTileSize": [8, 8],
+        "adaptiveThreshold": {
+          "method": "GAUSSIAN_C",
+          "blockSize": 11,
+          "constant": 2
+        },
+        "medianBlur": {
+          "kernelSize": 3
+        }
+      }
+    },
+    {
+      "name": "MarkerDetection",
+      "options": {
+        "templatePath": "omrmarker.jpg",
+        "minMarkerSize": 20,
+        "maxMarkerSize": 60,
+        "matchThreshold": 0.3,
+        "scaleRange": {
+          "min": 0.5,
+          "max": 2.0,
+          "steps": 20
+        }
+      }
+    },
+    {
+      "name": "PerspectiveCorrection",
+      "options": {
+        "outputDimensions": [800, 1000],
+        "markerCount": 4
+      }
+    }
+  ],
+  "customLabels": {
+    "rollnum": [
+      "digit1",
+      "digit2",
+      "digit3",
+      "digit4",
+      "digit5"
+    ]
+  }
+}
